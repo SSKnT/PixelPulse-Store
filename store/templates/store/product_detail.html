@@ -1,0 +1,46 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}  
+<div class="container mt-5">
+    <div class="row row-cols-1 row-cols-md-2 mb-2 mt-2">
+        
+        <div class="col-md-6">
+            <!-- Product Image -->
+            <div class="rounded overflow-hidden">
+                <img class="img-fluid rounded" src="{{ object.product_image.url }}" alt="{{ object.product_name }}">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- Product Details -->
+            <div class="text-md-start text-center">
+                <!-- Product Name -->
+                <h2 class="mb-3">{{ object.product_name }}</h2><hr>
+                <!-- Product Price (if available) -->
+                <br>
+                <h3 class="font-weight-bold">${{object.price}}</h3>
+                <!-- Quantity -->
+                <p class="text-muted">In Stock: {{ object.quantity }}</p>
+                <!-- Add to Cart Button --><br><br>
+                <div class="text-center">
+                    <form method="POST" action="{% url 'add-to-cart' object.id %}">
+                        {% csrf_token %}
+                        <button type="submit" style="width: 25rem;height:3rem;" class="btn bg-secondary mt-auto">Add to cart</button>
+                    </form>                              
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="card bg-dark rounded mt-5 mb-5" style="max-width:60%;">
+        <Legend class="card-title m-3">Product Description:</Legend>
+        <div class="card-body">
+            <p class="lead">{{object.description|as_b|safe}}</p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

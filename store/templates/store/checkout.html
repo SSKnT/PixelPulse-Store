@@ -1,0 +1,60 @@
+{% extends 'store/base.html' %}
+{% load custom_filters  %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center bg-neon">
+                    <h2 class="card-title text-dark">Your Order</h2>
+                </div>   
+                <div class="card-body bg-header">
+                    {% if order %}
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="text-light">Product</th>
+                                    <th scope="col" class="text-light">Price</th>
+                                    <th scope="col" class="text-light">Quantity</th>
+                                </tr>
+                                
+                            </thead>
+                            <tbody>
+                                
+                                    {% for item in order.product_ids.all %}
+                                    <tr>
+                                        <td class="text-light">{{ item.product_name }}</td>
+                                        <td class="neon">${{ item.price }}</td>
+                                        <td class="text-light">{{ order.product_quantities|get_item:item.id}}</td>
+                                    </tr>
+                                    {% endfor %}   
+            
+                                </tbody>
+                            </table>
+
+                                <div class="d-flex justify-content-end">
+                                    <h4 class="text-light">Quantity: {{ order.total_quantity }}</h4>
+                                </div><div class= 'text-end'> 
+                                    <h4 class="neon">Total: ${{ order.total_price|floatformat:2 }}</h4>
+                                </div>
+                            {% if order_paid %}
+                                <div class="alert alert-success" role="alert">
+                                    <h4 class="alert-heading">Thank you for your purchase!</h4>
+                                    <p>Your order has been successfully processed.</p>
+                                </div>
+                            {% else %}
+                                <form action="{% url 'create-checkout-session' %}" method="post" class="text-center">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                                    <button class="btn btn-success" type="submit">Checkout</button>
+                                </form>
+                            {% endif %}
+                    {% endif %}
+                    {{ order.order_paid }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

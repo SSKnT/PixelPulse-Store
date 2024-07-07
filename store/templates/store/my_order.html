@@ -1,0 +1,33 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <section><br>
+                    <h1 class="text-center">My Orders</h1><br><br>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="text-light">
+                                <th>Order ID</th>
+                                <th>Order Total</th>
+                                <th>Order Status</th>
+                                <th>Order Details</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-light">
+                            {% for order in orders %}
+                                <tr>
+                                    <td class="text-light">{{ order.id }}</td>
+                                    <td class="neon">${{ order.total_price }}</td>
+                                    <td class="text-light text-weight-bold ">{{ order.status }}</td>
+                                    <td><a class="btn btn-outline-info " href="{% url 'order-list' order.id %}">View</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

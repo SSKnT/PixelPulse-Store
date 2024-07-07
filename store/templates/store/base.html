@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gaming Store{% endblock %}</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'store/simple.css' %}">
+</head>
+<body class="d-flex flex-column min-vh-100 text-light">
+    <header class="bg-header text-white py-2 border-bottom">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="logo">
+                <h1 class="animate__animated animate__pulse">
+                    <i class="fas fa-memory text-info"></i>
+                    <a href="{% url 'product-list' %}" class="text-highlight text-decoration-none">PixelPulse</a>
+                </h1>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-dark">
+            
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="mr-3">
+                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'product-list' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about' %}">About</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-highlight" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Shop
+                            </a>
+                            <ul class="dropdown-menu neon-gradient-background" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'all-product-list'%}">All Products</a></li>
+                                <li><hr class="dropdown-divider custom-dropdown"></li>
+                                <li><a class="dropdown-item" href="{% url 'product-list'%}">New Arrivals</a></li>
+                                <li><a class="dropdown-item" href="{% url 'budget-product-list'%}">Budget Ballers</a></li>
+                            </ul>
+                        </li>
+                     </ul>
+                    </div>
+                    <div class=" mr-3">
+                    <form class="d-flex ms-lg-4 mt-3 mt-lg-0" action="{% url 'search' %}">
+                        <input class="form-control wid-20 rounded-pill transparent border-0" type="search" name="query" placeholder="Search" aria-label="Search">
+                        <button class="btn text-light " type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                    </div>
+
+
+                    <div class="ms-2 ml-5 mt-3 mt-lg-0">
+                        {% if user.is_authenticated %}
+
+                        <div class="d-flex ">
+                            <a href="{% url 'my-order' %}" class="btn btn-outline-neon m-1">My Orders</a>
+                            <a href="{% url 'cart' %}" class="btn btn-outline-neon m-1">Cart</a>                           
+                                <form method="POST" action="{% url 'account_logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-neon m-1">Logout</button>
+                                </form>
+                        <div>
+
+                        {% else %}
+                            <a href="{% url 'account_login' %}" class="btn btn-outline-neon">Login</a>
+                            <a href="{% url 'account_signup' %}" class="btn m-1 btn-outline-neon">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+   
+    <footer class="bg-footer text-white mt-auto py-4 border-top border-highlight">
+        <div class="container text-center">
+            <p>&copy; 2024 PixelPulse. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block content %}  
+
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <h2 class="neon mt-5 mb-4" style="font-family: 'Oswald', sans-serif;">Budget Cards</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">  
+                {% for object in object_list %}              
+                <div class="col mb-5">
+                    <div class="card card-pr position-relative h-100 shadow rounded neon-border">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="{{ object.product_image.url }}" alt="..." />
+                        <!-- Product details-->
+                        <a href="{% url 'product-detail' object.id %}" class="neon">
+                            <div class="card-body card-body-pr p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ object.product_name }}</h5>
+                                </div>
+                                <!-- Product price-->
+                                <center class="neon">${{ object.price }}</center>
+                            </div>
+                        </a>
+                        <!-- Product actions-->
+                        <div class="card-footer card-footer p-2 pt-0 border-top-0 ">
+                            <div class="text-center">
+                                <form method="POST" action="{% url 'add-to-cart' object.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-success mt-auto">Add to cart</button>
+                                </form>                              
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                {% endfor %}
+            </div>
+        </div>  
+        <div class="text-center">
+            {% if page_obj.has_previous %}
+            <a class="btn btn-outline-success" href="?page=1">First</a>
+            <a class="btn btn-outline-success" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+            
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            
+            {% if page_obj.has_next %}
+            <a class="btn btn-outline-success" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-success" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+            </div>
+    </section>
+
+{% endblock content %}
+
+
